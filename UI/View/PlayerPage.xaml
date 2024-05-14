@@ -1,0 +1,106 @@
+﻿<Page x:Class="UI.View.PlayerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.View"
+      xmlns:vm="clr-namespace:UI.ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="550" d:DesignWidth="400"
+      Title="PlayerPage">
+
+    <Page.DataContext>
+        <vm:PlayerPage/>
+    </Page.DataContext>
+
+    <Grid>
+        <Label Content="Информация" FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Width="156" />
+        <Label Content="{Binding Player.Name}" FontSize="18" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,62,0,0" Width="190" />
+        <StackPanel Margin="227,52,10,426">
+            <WrapPanel>
+                <TextBlock Text="День: "/>
+                <TextBlock Text="{Binding CurrentDay}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="Баланс: "/>
+                <TextBlock Text="{Binding Player.Money}"/>
+                <TextBlock Text=" руб"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="Уровень: "/>
+                <TextBlock Text="{Binding CurrentLevel}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <ProgressBar Width="160" Margin="0,4" Value="{Binding CurrentMind, Mode=OneWay}" Maximum = "{Binding MindToUpLevel}" IsIndeterminate = "False" Height="4" />
+            </WrapPanel>
+        </StackPanel>
+        <StackPanel Margin="20,130,174,275">
+            <TextBlock Text="Здоровье" />
+            <WrapPanel>
+                <ProgressBar Width="170" Value="{Binding Player.Health}" Maximum = "100" IsIndeterminate = "False" />
+                <TextBlock Text="  " />
+                <TextBlock Text="{Binding Player.Health}" />
+            </WrapPanel>
+            <TextBlock/>
+            <TextBlock Text="Еда" />
+            <WrapPanel>
+                <ProgressBar Width="170" Value="{Binding Player.Satiation}" Maximum = "100" IsIndeterminate = "False" />
+                <TextBlock Text="  " />
+                <TextBlock Text="{Binding Player.Satiation}" />
+            </WrapPanel>
+            <TextBlock/>
+            <TextBlock Text="Счастье" />
+            <WrapPanel>
+                <ProgressBar Width="170" Value="{Binding Player.Happiness}" Maximum = "100" IsIndeterminate = "False" />
+                <TextBlock Text="  " />
+                <TextBlock Text="{Binding Player.Happiness}" />
+            </WrapPanel>
+            <TextBlock/>
+        </StackPanel>
+
+        <Label Content="Инвентарь" FontSize="18" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,280,0,0" Width="156" />
+        <ListView ItemsSource="{Binding InventoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" SelectedItem="{Binding SelectedItem, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" Margin="20,319,200,10">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Key.Name}" />
+                        <TextBlock Text="  x" />
+                        <TextBlock Text="{Binding Value}" />
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Margin="205,319,20,10" Visibility="{Binding ItemPreview}">
+            <StackPanel DataContext="{Binding SelectedItem}" Margin="10,0,0,25">
+                    <WrapPanel>
+                    <TextBlock Text="{Binding Key.Name}" FontSize="16" />
+                        <TextBlock Text="  " FontSize="16" />
+                    <TextBlock Text="{Binding Key.Price}" FontSize="14"/>
+                        <TextBlock Text="руб " FontSize="14" />
+                    </WrapPanel>
+                    <TextBlock />
+                    <WrapPanel>
+                        <TextBlock Text="🖤" FontSize="14" />
+                        <TextBlock Text="  " FontSize="14" />
+                    <TextBlock Text="{Binding Key.Health}" FontSize="14"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="🍗" FontSize="14" />
+                        <TextBlock Text="  " FontSize="14" />
+                    <TextBlock Text="{Binding Key.Satiation}" FontSize="14"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="🎓" FontSize="14" />
+                        <TextBlock Text="  " FontSize="14" />
+                    <TextBlock Text="{Binding Key.Mind}" FontSize="14"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="😀" FontSize="14" />
+                        <TextBlock Text="  " FontSize="14" />
+                    <TextBlock Text="{Binding Key.Happiness}" FontSize="14"/>
+                    </WrapPanel>
+                </StackPanel>
+            <Button Content="Использовать" Command="{Binding UseItem}" VerticalAlignment="Bottom" Height="20" Margin="10,0,0,0" />
+        </Grid>
+    </Grid>
+</Page>
